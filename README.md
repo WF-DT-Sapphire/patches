@@ -59,10 +59,3 @@ To revert an already-applied patch, use `-R`:
 cd ~/LOSMG/packages/apps/Trebuchet && \
   git apply --check -R ~/Trebuchet-Recents-lock-apps.patch
 ```
-
-### Contributing
-
-1. Generate the patch from a clean commit (`git format-patch` or `git diff > name.patch`).
-2. Test with `git apply --check` against the target base.
-3. Add an entry to the **Contents** table.
-4. Open a PR describing the problem the patch solves.
