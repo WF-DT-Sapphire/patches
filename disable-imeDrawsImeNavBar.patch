@@ -1,0 +1,12 @@
+diff --git a/packages/overlays/NavigationBarModeGesturalOverlay/res/values/config.xml b/packages/overlays/NavigationBarModeGesturalOverlay/res/values/config.xml
+--- a/packages/overlays/NavigationBarModeGesturalOverlay/res/values/config.xml
++++ b/packages/overlays/NavigationBarModeGesturalOverlay/res/values/config.xml
+@@ -31,7 +31,7 @@
+     <bool name="config_navBarTapThrough">true</bool>
+ 
+     <!-- Controls whether the IME renders the back and IME switcher buttons or not. -->
+-    <bool name="config_imeDrawsImeNavBar">true</bool>
++    <bool name="config_imeDrawsImeNavBar">false</bool>
+ 
+     <!-- Controls the size of the back gesture inset. -->
+     <dimen name="config_backGestureInset">30dp</dimen>
