@@ -1,0 +1,62 @@
+Fix: Enable NFC for SapphireN
+
+diff --git a/device/xiaomi/sapphire/rootdir/etc/init.xiaomi.rc b/device/xiaomi/sapphire/rootdir/etc/init.xiaomi.rc
+index 904a9e7..04defa2 100644
+--- a/device/xiaomi/sapphire/rootdir/etc/init.xiaomi.rc
++++ b/device/xiaomi/sapphire/rootdir/etc/init.xiaomi.rc
+@@ -52,13 +52,6 @@ on boot
+ 
+     chmod 0666 /dev/input/event2
+ 
+-service vendor.st_nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.st
+-    override
+-    class hal
+-    user nfc
+-    group nfc
+-    disabled
+-
+ service stflashtool /vendor/bin/STFlashTool
+     override
+     class late_start
+diff --git a/device/xiaomi/sapphire/sepolicy/vendor/property_contexts b/device/xiaomi/sapphire/sepolicy/vendor/property_contexts
+index e9c1d86..b27aa43 100644
+--- a/device/xiaomi/sapphire/sepolicy/vendor/property_contexts
++++ b/device/xiaomi/sapphire/sepolicy/vendor/property_contexts
+@@ -23,3 +23,6 @@ ro.telephony.sim_slots.count                 u:object_r:radio_prop:s0
+ 
+ 
+ ro.vendor.camera.res.fmq.size  u:object_r:vendor_camera_res_prop:s0
++
++# NFC
++ro.nfc.port                              u:object_r:vendor_nfc_prop:s0
+diff --git a/device/xiaomi/sapphire/sepolicy/vendor/vendor_init.te b/device/xiaomi/sapphire/sepolicy/vendor/vendor_init.te
+index d57df10..64d4046 100644
+--- a/device/xiaomi/sapphire/sepolicy/vendor/vendor_init.te
++++ b/device/xiaomi/sapphire/sepolicy/vendor/vendor_init.te
+@@ -20,9 +20,12 @@ set_prop(vendor_init, vendor_ims_prop);
+ 
+ set_prop(vendor_init, vendor_bluetooth_prop)
+ 
++# NFC:
++set_prop(vendor_init, vendor_nfc_prop)
++
+ # Allow init.qcom.usb.sh to create files in uvc.0
+ allow vendor_qti_init_shell configfs:dir create_dir_perms;
+ allow vendor_qti_init_shell configfs:{
+   file
+   lnk_file
+-} create_file_perms;
+\ No newline at end of file
++} create_file_perms;
+diff --git a/hardware/st/nfc/1.2/android.hardware.nfc@1.2-service.st.rc b/hardware/st/nfc/1.2/android.hardware.nfc@1.2-service.st.rc
+index 1df3464..1f3b507 100644
+--- a/hardware/st/nfc/1.2/android.hardware.nfc@1.2-service.st.rc
++++ b/hardware/st/nfc/1.2/android.hardware.nfc@1.2-service.st.rc
+@@ -1,4 +1,7 @@
+ service vendor.st_nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.st
++    interface android.hardware.nfc@1.2::INfc default
++    interface android.hardware.nfc@1.1::INfc default
++    interface android.hardware.nfc@1.0::INfc default
+     class hal
+     user nfc
+     group nfc
